@@ -1,0 +1,49 @@
+@startuml
+
+
+
+
+:Директор: as Director
+:Работник склада: as Worker
+:Продавец: as Seller
+:Кассир: as Cashier
+
+
+package Магазин {
+    rectangle Руководство {
+        (Просмотр статистики) as m.1
+        (Заказать товар) as m.2
+    }
+
+    package Склад {
+         (Прием товара на баланс) as s.1
+         (Учет товара на складе) as s.2
+         (Формирование отчета) as s.3
+    }
+
+    package Персонал {
+        (Принять деньги за товар) as p.1
+        (Возрат денег за товар) as p.2
+        (Сформировать чек) as p.3
+        (Формирование накладной для покупателя) as p.4
+    }
+
+    m.2 ..> s.1
+    m.2 ..> s.2:include
+    s.3 ..> m.1
+    p.1 ..> p.3
+    p.3 ..> p.4:extend
+    p.1 ..> s.2
+    p.2 ..> s.2
+    p.2 ..> s.1:include
+
+    Director ..> m.1
+    Director ..> m.2
+    Seller ..> p.4
+    Cashier ..> p.1
+    Cashier ..> p.2
+    Worker ..> s.1
+    Worker ..> s.2
+    Worker ..> s.3
+}
+@enduml
